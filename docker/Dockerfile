@@ -4,7 +4,7 @@ ARG USERNAME=joaomisturini
 ARG USER_UID=1000
 ARG USER_GID=1000
 
-RUN apt-get update && apt-get install -y --no-install-recommends sudo openjdk-8-jdk glpk-utils
+RUN apt-get update && apt-get install -y --no-install-recommends sudo git openjdk-8-jdk glpk-utils
 
 RUN groupadd --gid $USER_GID $USERNAME && useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USERNAME
 

@@ -1,0 +1,13 @@
+{
+	"name": "Ubuntu",
+	"dockerComposeFile": [
+		"../docker-compose.yml",
+		"docker-compose.yml"
+	],
+	"service": "ubuntu",
+	"workspaceFolder": "/home/modelo",
+	"postCreateCommand": "./docker/postCreate.sh",
+	"extensions": [
+		"steffenk1337.gmpl"
+	]
+}
