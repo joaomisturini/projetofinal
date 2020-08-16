@@ -2,7 +2,7 @@
 
 Minimize multi-objectives
  distancia: RelTol=0.6
- + 25 y(1,1) + 90 y(2,1) + 90 y(3,1) + 90 y(4,1) + 90 y(1,2) + 70 y(2,2)
+ + 25 y(1,1) + 90 y(2,1) + 20 y(3,1) + 90 y(4,1) + 90 y(1,2) + 70 y(2,2)
  + 90 y(3,2) + 25 y(4,2) + 25 y(1,3) + 90 y(2,3) + 90 y(3,3) + 90 y(4,3)
  lixeiras: Priority=-1
  + x(1,1) + x(1,2) + x(1,3) + x(1,4) + x(1,5) + x(1,6) + x(2,1) + x(2,2)
@@ -59,7 +59,7 @@ Subject To
  lim_distancia(2,1): + 90 y(2,1) <= 100
  lim_distancia(2,2): + 70 y(2,2) <= 100
  lim_distancia(2,3): + 90 y(2,3) <= 100
- lim_distancia(3,1): + 90 y(3,1) <= 100
+ lim_distancia(3,1): + 20 y(3,1) <= 100
  lim_distancia(3,2): + 90 y(3,2) <= 100
  lim_distancia(3,3): + 90 y(3,3) <= 100
  lim_distancia(4,1): + 90 y(4,1) <= 100
