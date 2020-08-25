@@ -1,2 +1,2 @@
-/docker/cplex.bin
+/docker/*.bin
 *.log
