@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cplex -c "read $1" "optimize" "display solution objective *"
+cplex -c "read ./testes/$1.lp" "optimize" "display solution objective *"

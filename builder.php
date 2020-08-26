@@ -1,14 +1,14 @@
 <?php
 
 $lixeiras = [
-    'quantidade' => 28,
+    'quantidade' => 40,
     'capacidade' => 3,
     'tamanho' => 2,
 ];
 
-$localizacoes = [ 'quantidade' => 18 ];
+$localizacoes = [ 'quantidade' => 20 ];
 
-$habitacoes = [ 'quantidade' => 25 ];
+$habitacoes = [ 'quantidade' => 30 ];
 
 $distanciaMaxima = 250;
 
