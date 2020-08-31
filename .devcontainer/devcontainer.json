@@ -8,6 +8,7 @@
 	"workspaceFolder": "/home/modelo",
 	"postCreateCommand": "./docker/postCreate.sh",
 	"extensions": [
+		"ms-python.python",
 		"steffenk1337.gmpl"
 	]
 }
