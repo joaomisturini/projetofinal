@@ -12,34 +12,33 @@ houses = json.loads(open('./dados/casas.geojson').read())['features']
 housesLength = len(houses)
 buildings = json.loads(open('./dados/edificios.geojson').read())['features']
 buildingsLength = len(buildings)
-locations = json.loads(open('./dados/localizacoes.geojson').read())['features']
+locations = json.loads(open('./dados/localizacoes-12.geojson').read())['features']
 locationsLength = len(locations)
 
-# distances = {}
+distances = {}
 
-# for i in range(locationsLength):
-#     print(i)
-#     dwelDistances = {}
+for i in range(locationsLength):
+    dwelDistances = {}
 
-#     location = locations[i]
-#     locationCoords = location['geometry']['coordinates']
+    location = locations[i]
+    locationCoords = location['geometry']['coordinates']
 
-#     for j in range(housesLength):
-#         house = houses[j]
-#         houseCoords = house['geometry']['coordinates']
+    for j in range(housesLength):
+        house = houses[j]
+        houseCoords = house['geometry']['coordinates']
 
-#         dwelDistances[j] = geopy.distance.distance(locationCoords, houseCoords).m
+        dwelDistances[j] = geopy.distance.distance(locationCoords, houseCoords).m
 
-#     for j in range(buildingsLength):
-#         building = buildings[j]
-#         buildingCoords = building['geometry']['coordinates']
+    for j in range(buildingsLength):
+        building = buildings[j]
+        buildingCoords = building['geometry']['coordinates']
 
-#         newj = j + housesLength
-#         dwelDistances[newj] = geopy.distance.distance(locationCoords, buildingCoords).m
+        newj = j + housesLength
+        dwelDistances[newj] = geopy.distance.distance(locationCoords, buildingCoords).m
 
-#     distances[i] = dwelDistances
+    distances[i] = dwelDistances
 
-# open('./distancias.json', 'a').write(json.dumps(distances))
+open('./distancias.json', 'a').write(json.dumps(distances))
 
 # for i in range(len(houses)):
 #     print('casa %s' % (i + 1), city['ratio'] * city['amountM3'])
