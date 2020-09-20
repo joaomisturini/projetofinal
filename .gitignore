@@ -1,3 +1,4 @@
+/dados
 /docker/*.bin
 /examples
 *.log
