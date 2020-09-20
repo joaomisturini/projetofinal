@@ -16,36 +16,36 @@ distanciaMaxima = 300
 
 espacos = map(
     lambda i: '%s %s' % (i, random.choice(range(4, 20))),
-    range(1, localizacoes['quantidade'])
+    range(1, localizacoes['quantidade'] + 1)
 )
 
 volumes = map(
-    lambda i: '%s %s' % (i, max(0, random.choice(range(-4, 7)))),
-    range(1, localizacoes['quantidade'])
+    lambda i: '%s %s' % (i, 0),
+    range(1, localizacoes['quantidade'] + 1)
 )
 
 capacidades = map(
     lambda i: '%s %s' % (i, lixeiras['capacidade']),
-    range(1, lixeiras['quantidade'])
+    range(1, lixeiras['quantidade'] + 1)
 )
 
 tamanhos = map(
     lambda i: '%s %s' % (i, lixeiras['tamanho']),
-    range(1, lixeiras['quantidade'])
+    range(1, lixeiras['quantidade'] + 1)
 )
 
 dados = json.loads(open('./distancias.json').read())
 distancias = map(
     lambda i: '    %s\t\t%s' % (i, '\t'.join(map(
-        lambda j: str(dados[str(i - 1)][str(j - 1)]), #str(round(random.choice(range(10, 30)) * (1 + abs(i - j)))),
-        range(1, habitacoes['quantidade'])
+        lambda j: str(round(dados[str(i - 1)][str(j - 1)])),
+        range(1, habitacoes['quantidade'] + 1)
     ))),
-    range(1, localizacoes['quantidade'])
+    range(1, localizacoes['quantidade'] + 1)
 )
 
 ajuste_habitacoes = map(
     lambda i: str(i),
-    range(1, habitacoes['quantidade'])
+    range(1, habitacoes['quantidade'] + 1)
 )
 
 # imprime arquivo
@@ -62,7 +62,7 @@ param v := %s;
 param c := %s;
 param t := %s;
 param d :   %s   :=
-%s
+%s;
 param DM %s;
 
 end;
