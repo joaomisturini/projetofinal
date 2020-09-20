@@ -6,7 +6,7 @@ lixeiras = {
     'tamanho': 3,
 }
 
-localizacoes = { 'quantidade': 919 }
+localizacoes = { 'quantidade': 458 }
 
 habitacoes = { 'quantidade': 801 }
 
@@ -15,7 +15,7 @@ distanciaMaxima = 300
 # monta dados
 
 espacos = map(
-    lambda i: '%s %s' % (i, random.choice(range(4, 20))),
+    lambda i: '%s %s' % (i, 30),
     range(1, localizacoes['quantidade'] + 1)
 )
 
