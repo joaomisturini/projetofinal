@@ -1,16 +1,16 @@
-import random
+import random, json
 
 lixeiras = {
-    'quantidade': 40,
-    'capacidade': 3,
-    'tamanho': 2,
+    'quantidade': 205,
+    'capacidade': 1000,
+    'tamanho': 3,
 }
 
-localizacoes = { 'quantidade': 20 }
+localizacoes = { 'quantidade': 919 }
 
-habitacoes = { 'quantidade': 30 }
+habitacoes = { 'quantidade': 801 }
 
-distanciaMaxima = 250
+distanciaMaxima = 300
 
 # monta dados
 
@@ -34,9 +34,10 @@ tamanhos = map(
     range(1, lixeiras['quantidade'])
 )
 
+dados = json.loads(open('./distancias.json').read())
 distancias = map(
     lambda i: '    %s\t\t%s' % (i, '\t'.join(map(
-        lambda j: str(round(random.choice(range(10, 30)) * (1 + abs(i - j)))),
+        lambda j: str(dados[str(i - 1)][str(j - 1)]), #str(round(random.choice(range(10, 30)) * (1 + abs(i - j)))),
         range(1, habitacoes['quantidade'])
     ))),
     range(1, localizacoes['quantidade'])
