@@ -12,7 +12,7 @@ houses = json.loads(open('./dados/casas.geojson').read())['features']
 housesLength = len(houses)
 buildings = json.loads(open('./dados/edificios.geojson').read())['features']
 buildingsLength = len(buildings)
-locations = json.loads(open('./dados/localizacoes-12.geojson').read())['features']
+locations = json.loads(open('./dados/localizacoes.geojson').read())['features']
 locationsLength = len(locations)
 
 distances = {}

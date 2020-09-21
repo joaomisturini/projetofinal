@@ -6,16 +6,21 @@ lixeiras = {
     'tamanho': 3,
 }
 
-localizacoes = { 'quantidade': 458 }
+localizacoes = {
+    'quantidade': 458,
+    'espaco': 30,
+}
 
 habitacoes = { 'quantidade': 801 }
+
+distancias = json.loads(open('./distancias.json').read())
 
 distanciaMaxima = 300
 
 # monta dados
 
 espacos = map(
-    lambda i: '%s %s' % (i, 30),
+    lambda i: '%s %s' % (i, localizacoes['espaco']),
     range(1, localizacoes['quantidade'] + 1)
 )
 
@@ -34,10 +39,9 @@ tamanhos = map(
     range(1, lixeiras['quantidade'] + 1)
 )
 
-dados = json.loads(open('./distancias.json').read())
 distancias = map(
     lambda i: '    %s\t\t%s' % (i, '\t'.join(map(
-        lambda j: str(round(dados[str(i - 1)][str(j - 1)])),
+        lambda j: str(round(distancias[str(i - 1)][str(j - 1)])),
         range(1, habitacoes['quantidade'] + 1)
     ))),
     range(1, localizacoes['quantidade'] + 1)
