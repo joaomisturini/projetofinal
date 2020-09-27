@@ -1,55 +1,56 @@
 import random, json
 
-lixeiras = {
-    'quantidade': 205,
-    'capacidade': 1000,
-    'tamanho': 3,
+bins = {
+    'quantity': 205,
+    'capacity': 1000,
+    'size': 3,
 }
 
-localizacoes = {
-    'quantidade': 458,
-    'espaco': 30,
+locations = {
+    'quantity': 458,
+    'space': 30,
 }
 
-habitacoes = { 'quantidade': 801 }
+dwellings = { 'quantity': 801 }
 
-distancias = json.loads(open('./distancias.json').read())
+distanceData = json.loads(open('./distances.json').read())
+volumeData = json.loads(open('./volumes.json').read())
 
-distanciaMaxima = 300
+maxDistance = 300
 
 # monta dados
 
-espacos = map(
-    lambda i: '%s %s' % (i, localizacoes['espaco']),
-    range(1, localizacoes['quantidade'] + 1)
+spaces = map(
+    lambda i: '%s %s' % (i, locations['space']),
+    range(1, locations['quantity'] + 1)
+)
+
+capacities = map(
+    lambda i: '%s %s' % (i, bins['capacity']),
+    range(1, bins['quantity'] + 1)
+)
+
+sizes = map(
+    lambda i: '%s %s' % (i, bins['size']),
+    range(1, bins['quantity'] + 1)
 )
 
 volumes = map(
-    lambda i: '%s %s' % (i, 0),
-    range(1, localizacoes['quantidade'] + 1)
+    lambda i: '%s %s' % (i, round(volumeData[i - 1])),
+    range(1, dwellings['quantity'] + 1)
 )
 
-capacidades = map(
-    lambda i: '%s %s' % (i, lixeiras['capacidade']),
-    range(1, lixeiras['quantidade'] + 1)
-)
-
-tamanhos = map(
-    lambda i: '%s %s' % (i, lixeiras['tamanho']),
-    range(1, lixeiras['quantidade'] + 1)
-)
-
-distancias = map(
+distances = map(
     lambda i: '    %s\t\t%s' % (i, '\t'.join(map(
-        lambda j: str(round(distancias[str(i - 1)][str(j - 1)])),
-        range(1, habitacoes['quantidade'] + 1)
+        lambda j: str(round(distanceData[str(i - 1)][str(j - 1)])),
+        range(1, dwellings['quantity'] + 1)
     ))),
-    range(1, localizacoes['quantidade'] + 1)
+    range(1, locations['quantity'] + 1)
 )
 
-ajuste_habitacoes = map(
+dwellingsString = map(
     lambda i: str(i),
-    range(1, habitacoes['quantidade'] + 1)
+    range(1, dwellings['quantity'] + 1)
 )
 
 # imprime arquivo
@@ -62,24 +63,24 @@ param ln := %s;
 param hn := %s;
 
 param e := %s;
-param v := %s;
 param c := %s;
 param t := %s;
+param v := %s;
 param d :   %s   :=
 %s;
 param DM %s;
 
 end;
 ''' % (
-    localizacoes['quantidade'],
-    lixeiras['quantidade'],
-    habitacoes['quantidade'],
-    ', '.join(espacos),
+    locations['quantity'],
+    bins['quantity'],
+    dwellings['quantity'],
+    ', '.join(spaces),
+    ', '.join(capacities),
+    ', '.join(sizes),
     ', '.join(volumes),
-    ', '.join(capacidades),
-    ', '.join(tamanhos),
-    '\t'.join(ajuste_habitacoes),
-    '\n'.join(distancias),
-    distanciaMaxima
+    '\t'.join(dwellingsString),
+    '\n'.join(distances),
+    maxDistance
 ))
 file.close()
