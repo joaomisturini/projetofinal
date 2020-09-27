@@ -3,18 +3,10 @@ from docplex.mp.model import Model
 # DADOS
 
 localizacoes = [
-    {
-        'instalada': 1
-    },
-    {
-        'instalada': 0
-    },
-    {
-        'instalada': 1
-    },
-    {
-        'instalada': 1
-    },
+    { 'instalada': 1 },
+    { 'instalada': 0 },
+    { 'instalada': 1 },
+    { 'instalada': 1 },
 ]
 
 total_habitacoes = 4
@@ -29,7 +21,7 @@ distancias = [
 # MODELO
 
 model = Model(name='Localizacoes')
-model.designadas = model.binary_var_matrix(len(localizacoes), total_habitacoes, 'localizacoes designadas')
+model.designadas = model.binary_var_matrix(len(localizacoes), total_habitacoes, 'localizacoes_designadas')
 
 # constraint lim_localizacao
 for i in range(total_habitacoes):
@@ -47,13 +39,12 @@ model.minimize(obj_distancia)
 # RESOLVE O PROBLEMA
 
 if model.solve():
+    # print(model.kpi_value_by_name('distancia'))
     print(model.solution.multi_objective_values)
-    print(model.solution.number_of_var_values)
 
-    for i in model.solution.get_value_dict(model.designadas):
-        print([ i, model.solution.get_value(i) ])
-
-    # for (i, j) in model.solution.iter_var_values():
-        # print(i, j)
+    for i in range(len(localizacoes)):
+        for j in range(total_habitacoes):
+            chave = 'localizacoes_designadas_%s_%s' % (i, j)
+            print(chave, model.solution.get_value(chave))
 else:
     print('infeasible')

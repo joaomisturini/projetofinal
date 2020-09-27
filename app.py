@@ -1,59 +1,46 @@
 from docplex.mp.model import Model
+from docplex.util.environment import get_environment
 
 # DADOS
 
 localizacoes = [
-    {
-        'espaco': 10
-    },
-    {
-        'espaco': 8
-    },
-    {
-        'espaco': 6
-    },
-    {
-        'espaco': 6
-    },
+    { 'espaco': 10 },
+    { 'espaco': 8 },
+    { 'espaco': 6 },
+    { 'espaco': 6 },
 ]
 
 lixeiras = [
     {
         'capacidade': 2,
-        'tamanho': 1.5
+        'tamanho': 1.5,
     },
     {
         'capacidade': 2,
-        'tamanho': 1.5
+        'tamanho': 1.5,
     },
     {
         'capacidade': 2,
-        'tamanho': 1.5
+        'tamanho': 1.5,
     },
     {
         'capacidade': 2,
-        'tamanho': 1.5
+        'tamanho': 1.5,
     },
     {
         'capacidade': 2,
-        'tamanho': 1.5
+        'tamanho': 1.5,
     },
     {
         'capacidade': 2,
-        'tamanho': 1.5
+        'tamanho': 1.5,
     },
 ]
 
 habitacoes = [
-    {
-        'volume': 1
-    },
-    {
-        'volume': 1
-    },
-    {
-        'volume': 1
-    }
+    { 'volume': 1 },
+    { 'volume': 1 },
+    { 'volume': 1 }
 ]
 
 distancias = [
@@ -68,8 +55,8 @@ distancia_maxima = 100
 # MODELO
 
 model = Model(name='Lixeiras')
-model.instaladas = model.binary_var_matrix(len(localizacoes), len(lixeiras), 'lixeiras instaladas')
-model.designadas = model.binary_var_matrix(len(localizacoes), len(habitacoes), 'localizacoes designadas')
+model.instaladas = model.binary_var_matrix(len(localizacoes), len(lixeiras), 'lixeiras_instaladas')
+model.designadas = model.binary_var_matrix(len(localizacoes), len(habitacoes), 'localizacoes_designadas')
 
 # constraint lim_volume
 for i in range(len(localizacoes)):
@@ -124,6 +111,15 @@ if model.solve():
     # print(model.kpi_value_by_name('distancia'))
     # print(model.kpi_value_by_name('lixeiras'))
     print(model.solution.multi_objective_values)
-    print(model.solution.number_of_var_values)
+
+    for i in range(len(localizacoes)):
+        for j in range(len(lixeiras)):
+            chave = 'lixeiras_instaladas_%s_%s' % (i, j)
+            print(chave, model.solution.get_value(chave))
+
+    for i in range(len(localizacoes)):
+        for j in range(len(habitacoes)):
+            chave = 'localizacoes_designadas_%s_%s' % (i, j)
+            print(chave, model.solution.get_value(chave))
 else:
     print('infeasible')
