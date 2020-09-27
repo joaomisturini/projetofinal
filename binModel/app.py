@@ -1,5 +1,5 @@
 import json
 from binModel import BinModel
 
-binModel = BinModel(json.loads(open('./input.json').read()))
-print(binModel.solve(0))
+bin_model = BinModel(json.loads(open('./input.json').read()))
+print(bin_model.solve(0))

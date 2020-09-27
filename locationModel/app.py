@@ -1,5 +1,5 @@
 import json
 from locationModel import LocationModel
 
-locationModel = LocationModel(json.loads(open('./input.json').read()))
-print(locationModel.solve())
+location_model = LocationModel(json.loads(open('./input.json').read()))
+print(location_model.solve())

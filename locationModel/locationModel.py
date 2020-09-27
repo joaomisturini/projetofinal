@@ -3,60 +3,60 @@ from docplex.mp.model import Model
 class LocationModel():
     def __init__(self, data):
         self.distances = data['distances']
-        self.dwellingsCount = data['dwellingsCount']
+        self.dwellings_count = data['dwellings_count']
         self.locations = data['locations']
 
         self.model = Model(name='Localizacoes')
 
     def solve(self):
-        self.addVariables()
-        self.addConstraints()
-        self.addObjective()
+        self.add_variables()
+        self.add_constraints()
+        self.add_objective()
 
         if not self.model.solve():
             return None
 
-        designatedLocations = self.generateDesignatedLocations()
+        designated_locations = self.generate_designated_locations()
 
         return {
             'objectives': self.model.solution.multi_objective_values,
-            'designatedLocations': designatedLocations,
+            'designated_locations': designated_locations,
         }
 
-    def addVariables(self):
+    def add_variables(self):
         self.model.designated = self.model.binary_var_matrix(
-            len(self.locations), self.dwellingsCount, 'localizacoes_designadas'
+            len(self.locations), self.dwellings_count, 'localizacoes_designadas'
         )
 
-    def addConstraints(self):
+    def add_constraints(self):
         # constraint lim_localizacao
-        for i in range(self.dwellingsCount):
+        for i in range(self.dwellings_count):
             summation = self.model.sum(
                 self.model.designated[ (j, i) ] * self.locations[j]['installed'] for j in range(len(self.locations))
             )
 
             self.model.add_constraint(summation == 1, 'lim_localizacao_%s' % i)
 
-    def addObjective(self):
-        distanceObjective = self.model.sum(
-            self.distances[i][j] * self.model.designated[ (i, j) ] for j in range(self.dwellingsCount) for i in range(len(self.locations))
+    def add_objective(self):
+        distance_objective = self.model.sum(
+            self.distances[i][j] * self.model.designated[ (i, j) ] for j in range(self.dwellings_count) for i in range(len(self.locations))
         )
 
-        self.model.add_kpi(distanceObjective, 'distancia')
+        self.model.add_kpi(distance_objective, 'distancia')
 
-        self.model.minimize(distanceObjective)
+        self.model.minimize(distance_objective)
 
-    def generateDesignatedLocations(self):
-        designatedLocations = []
+    def generate_designated_locations(self):
+        designated_locations = []
 
         for i in range(len(self.locations)):
-            locationsRow = []
+            locations_row = []
 
-            for j in range(self.dwellingsCount):
-                locationsRow.append(self.model.solution.get_value(
+            for j in range(self.dwellings_count):
+                locations_row.append(self.model.solution.get_value(
                     'localizacoes_designadas_%s_%s' % (i, j)
                 ))
 
-            designatedLocations.append(locationsRow)
+            designated_locations.append(locations_row)
 
-        return designatedLocations
+        return designated_locations
