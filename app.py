@@ -3,107 +3,107 @@ from docplex.util.environment import get_environment
 
 # DADOS
 
-localizacoes = [
-    { 'espaco': 10 },
-    { 'espaco': 8 },
-    { 'espaco': 6 },
-    { 'espaco': 6 },
+locations = [
+    { 'space': 10 },
+    { 'space': 8 },
+    { 'space': 6 },
+    { 'space': 6 },
 ]
 
-lixeiras = [
+bins = [
     {
-        'capacidade': 2,
-        'tamanho': 1.5,
+        'capacity': 2,
+        'size': 1.5,
     },
     {
-        'capacidade': 2,
-        'tamanho': 1.5,
+        'capacity': 2,
+        'size': 1.5,
     },
     {
-        'capacidade': 2,
-        'tamanho': 1.5,
+        'capacity': 2,
+        'size': 1.5,
     },
     {
-        'capacidade': 2,
-        'tamanho': 1.5,
+        'capacity': 2,
+        'size': 1.5,
     },
     {
-        'capacidade': 2,
-        'tamanho': 1.5,
+        'capacity': 2,
+        'size': 1.5,
     },
     {
-        'capacidade': 2,
-        'tamanho': 1.5,
+        'capacity': 2,
+        'size': 1.5,
     },
 ]
 
-habitacoes = [
+dwellings = [
     { 'volume': 1 },
     { 'volume': 1 },
     { 'volume': 1 }
 ]
 
-distancias = [
+distances = [
     [ 25, 90, 25 ],
     [ 90, 70, 90 ],
     [ 20, 90, 90 ],
     [ 90, 25, 90 ],
 ]
 
-distancia_maxima = 100
+maxDistance = 100
 
 # MODELO
 
 model = Model(name='Lixeiras')
-model.instaladas = model.binary_var_matrix(len(localizacoes), len(lixeiras), 'lixeiras_instaladas')
-model.designadas = model.binary_var_matrix(len(localizacoes), len(habitacoes), 'localizacoes_designadas')
+model.installed = model.binary_var_matrix(len(locations), len(bins), 'lixeiras_instaladas')
+model.designated = model.binary_var_matrix(len(locations), len(dwellings), 'localizacoes_designadas')
 
 # constraint lim_volume
-for i in range(len(localizacoes)):
-    somatorioLixeiras = model.sum(lixeiras[j]['capacidade'] * model.instaladas[ (i, j) ] for j in range(len(lixeiras)))
-    somatorioHabitacoes = model.sum(habitacoes[j]['volume'] * model.designadas[ (i, j) ] for j in range(len(habitacoes)))
-    model.add_constraint(somatorioLixeiras >= somatorioHabitacoes, 'lim_volume_%s' % i)
+for i in range(len(locations)):
+    sumBins = model.sum(bins[j]['capacity'] * model.installed[ (i, j) ] for j in range(len(bins)))
+    sumDwellings = model.sum(dwellings[j]['volume'] * model.designated[ (i, j) ] for j in range(len(dwellings)))
+    model.add_constraint(sumBins >= sumDwellings, 'lim_volume_%s' % i)
 
 # constraint lim_espaco
-for i in range(len(localizacoes)):
-    somatorio = model.sum(lixeiras[j]['tamanho'] * model.instaladas[ (i, j) ] for j in range(len(lixeiras)))
-    model.add_constraint(somatorio <= localizacoes[i]['espaco'], 'lim_espaco_%s' % i)
+for i in range(len(locations)):
+    summation = model.sum(bins[j]['size'] * model.installed[ (i, j) ] for j in range(len(bins)))
+    model.add_constraint(summation <= locations[i]['space'], 'lim_espaco_%s' % i)
 
 # constraint lim_localizacao
-for i in range(len(habitacoes)):
-    somatorio = model.sum(model.designadas[ (j, i) ] for j in range(len(localizacoes)))
-    model.add_constraint(somatorio == 1, 'lim_localizacao_%s' % i)
+for i in range(len(dwellings)):
+    summation = model.sum(model.designated[ (j, i) ] for j in range(len(locations)))
+    model.add_constraint(summation == 1, 'lim_localizacao_%s' % i)
 
 # constraint lim_lixeiras
-for i in range(len(localizacoes)):
-    for j in range(len(habitacoes)):
-        somatorio = model.sum(model.instaladas[ (i, k) ] for k in range(len(lixeiras)))
-        model.add_constraint(somatorio >= model.designadas[ (i, j) ], 'lim_lixeiras_%s_%s' % (i, j))
+for i in range(len(locations)):
+    for j in range(len(dwellings)):
+        summation = model.sum(model.installed[ (i, k) ] for k in range(len(bins)))
+        model.add_constraint(summation >= model.designated[ (i, j) ], 'lim_lixeiras_%s_%s' % (i, j))
 
 # constraint lim_distancia
-for i in range(len(localizacoes)):
-    for j in range(len(habitacoes)):
-        calculo = distancias[i][j] * model.designadas[ (i, j) ]
-        model.add_constraint(calculo <= distancia_maxima, 'lim_distancia_%s_%s' % (i, j))
+for i in range(len(locations)):
+    for j in range(len(dwellings)):
+        setDistance = distances[i][j] * model.designated[ (i, j) ]
+        model.add_constraint(setDistance <= maxDistance, 'lim_distancia_%s_%s' % (i, j))
 
 # constraint lim_instalacao
-for i in range(len(lixeiras)):
-    somatorio = model.sum(model.instaladas[ (j, i) ] for j in range(len(localizacoes)))
-    model.add_constraint(somatorio <= 1, 'lim_instalacao_%s' % i)
+for i in range(len(bins)):
+    summation = model.sum(model.installed[ (j, i) ] for j in range(len(locations)))
+    model.add_constraint(summation <= 1, 'lim_instalacao_%s' % i)
 
 # objective distancia
-obj_distancia = model.sum(
-    distancias[i][j] * model.designadas[ (i, j) ] for j in range(len(habitacoes)) for i in range(len(localizacoes))
+distanceObj = model.sum(
+    distances[i][j] * model.designated[ (i, j) ] for j in range(len(dwellings)) for i in range(len(locations))
 )
-model.add_kpi(obj_distancia, 'distancia')
+model.add_kpi(distanceObj, 'distancia')
 
 # objective lixeiras
-obj_lixeiras = model.sum(
-    model.instaladas[ (i, j) ] for j in range(len(lixeiras)) for i in range(len(localizacoes))
+binsObj = model.sum(
+    model.installed[ (i, j) ] for j in range(len(bins)) for i in range(len(locations))
 )
-model.add_kpi(obj_lixeiras, 'lixeiras')
+model.add_kpi(binsObj, 'lixeiras')
 
-model.minimize_static_lex([ obj_distancia, obj_lixeiras ], reltols=0)
+model.minimize_static_lex([ distanceObj, binsObj ], reltols=0)
 
 # RESOLVE O PROBLEMA
 
@@ -112,14 +112,14 @@ if model.solve():
     # print(model.kpi_value_by_name('lixeiras'))
     print(model.solution.multi_objective_values)
 
-    for i in range(len(localizacoes)):
-        for j in range(len(lixeiras)):
-            chave = 'lixeiras_instaladas_%s_%s' % (i, j)
-            print(chave, model.solution.get_value(chave))
+    for i in range(len(locations)):
+        for j in range(len(bins)):
+            key = 'lixeiras_instaladas_%s_%s' % (i, j)
+            print(key, model.solution.get_value(key))
 
-    for i in range(len(localizacoes)):
-        for j in range(len(habitacoes)):
-            chave = 'localizacoes_designadas_%s_%s' % (i, j)
-            print(chave, model.solution.get_value(chave))
+    for i in range(len(locations)):
+        for j in range(len(dwellings)):
+            key = 'localizacoes_designadas_%s_%s' % (i, j)
+            print(key, model.solution.get_value(key))
 else:
     print('infeasible')
