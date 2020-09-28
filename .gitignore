@@ -1,5 +1,6 @@
 **__pycache__**
 /dados
 /docker/*.bin
-/examples
+/scripts
+builder.py
 *.log
