@@ -1,0 +1,45 @@
+{
+    "locations": [
+        { "space": 30 },
+        { "space": 30 },
+        { "space": 30 },
+        { "space": 30 },
+        { "space": 30 }
+    ],
+    "bins": [
+        {
+            "capacity": 1000,
+            "size": 3
+        },
+        {
+            "capacity": 1000,
+            "size": 3
+        },
+        {
+            "capacity": 1000,
+            "size": 3
+        },
+        {
+            "capacity": 1000,
+            "size": 3
+        },
+        {
+            "capacity": 1000,
+            "size": 3
+        }
+    ],
+    "dwellings": [
+        { "volume": 108.9 },
+        { "volume": 1089 },
+        { "volume": 29.04 },
+        { "volume": 72.6 }
+    ],
+    "distances": [
+        [ 10, 120, 50, 60 ],
+        [ 40, 80, 20, 120 ],
+        [ 70, 40, 10, 130 ],
+        [ 120, 100, 160, 10 ],
+        [ 70, 30, 100, 70 ]
+    ],
+    "max_distance": 100
+}
