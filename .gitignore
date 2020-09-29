@@ -2,5 +2,4 @@
 /dados
 /docker/*.bin
 /scripts
-builder.py
 *.log
