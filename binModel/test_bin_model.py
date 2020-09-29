@@ -1,5 +1,5 @@
 import json, unittest
-from binModel import BinModel
+from bin_model import BinModel
 
 class TestBinModel(unittest.TestCase):
     def test_set1_tolerance_0(self):

@@ -1,5 +1,5 @@
 import json, unittest
-from locationModel import LocationModel
+from location_model import LocationModel
 
 class TestLocationModel(unittest.TestCase):
     def test_set1_solution(self):
