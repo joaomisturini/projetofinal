@@ -8,48 +8,10 @@
         { "space": 30 },
         { "space": 30 }
     ],
-    "bins": [
-        {
-            "capacity": 1000,
-            "size": 3
-        },
-        {
-            "capacity": 1000,
-            "size": 3
-        },
-        {
-            "capacity": 1000,
-            "size": 3
-        },
-        {
-            "capacity": 1000,
-            "size": 3
-        },
-        {
-            "capacity": 1000,
-            "size": 3
-        },
-        {
-            "capacity": 1000,
-            "size": 3
-        },
-        {
-            "capacity": 1000,
-            "size": 3
-        },
-        {
-            "capacity": 1000,
-            "size": 3
-        },
-        {
-            "capacity": 1000,
-            "size": 3
-        },
-        {
-            "capacity": 1000,
-            "size": 3
-        }
-    ],
+    "bins": {
+        "capacity": 1000,
+        "size": 3
+    },
     "dwellings": [
         { "volume": 4.4 },
         { "volume": 217.8 },

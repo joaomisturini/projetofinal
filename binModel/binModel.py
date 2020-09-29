@@ -28,8 +28,8 @@ class BinModel():
         }
 
     def add_variables(self):
-        self.model.installed = self.model.binary_var_matrix(
-            len(self.locations), len(self.bins), 'lixeiras_instaladas'
+        self.model.installed = self.model.integer_var_list(
+            len(self.locations), 0, None, 'lixeiras_instaladas'
         )
 
         self.model.designated = self.model.binary_var_matrix(
@@ -39,23 +39,19 @@ class BinModel():
     def add_constraints(self):
         # constraint lim_volume
         for i in range(len(self.locations)):
-            sum_bins = self.model.sum(
-                self.bins[j]['capacity'] * self.model.installed[ (i, j) ] for j in range(len(self.bins))
-            )
+            capacity = self.bins['capacity'] * self.model.installed[i]
 
-            sum_dwellings = self.model.sum(
+            summation = self.model.sum(
                 self.dwellings[j]['volume'] * self.model.designated[ (i, j) ] for j in range(len(self.dwellings))
             )
 
-            self.model.add_constraint(sum_bins >= sum_dwellings, 'lim_volume_%s' % i)
+            self.model.add_constraint(capacity >= summation, 'lim_volume_%s' % i)
 
         # constraint lim_espaco
         for i in range(len(self.locations)):
-            summation = self.model.sum(
-                self.bins[j]['size'] * self.model.installed[ (i, j) ] for j in range(len(self.bins))
-            )
+            size = self.bins['size'] * self.model.installed[i]
 
-            self.model.add_constraint(summation <= self.locations[i]['space'], 'lim_espaco_%s' % i)
+            self.model.add_constraint(size <= self.locations[i]['space'], 'lim_espaco_%s' % i)
 
         # constraint lim_localizacao
         for i in range(len(self.dwellings)):
@@ -68,12 +64,8 @@ class BinModel():
         # constraint lim_lixeiras
         for i in range(len(self.locations)):
             for j in range(len(self.dwellings)):
-                summation = self.model.sum(
-                    self.model.installed[ (i, k) ] for k in range(len(self.bins))
-                )
-
                 self.model.add_constraint(
-                    summation >= self.model.designated[ (i, j) ], 'lim_lixeiras_%s_%s' % (i, j)
+                    self.model.installed[i] >= self.model.designated[ (i, j) ], 'lim_lixeiras_%s_%s' % (i, j)
                 )
 
         # constraint lim_distancia
@@ -85,14 +77,6 @@ class BinModel():
                     set_distance <= self.max_distance, 'lim_distancia_%s_%s' % (i, j)
                 )
 
-        # constraint lim_instalacao
-        for i in range(len(self.bins)):
-            summation = self.model.sum(
-                self.model.installed[ (j, i) ] for j in range(len(self.locations))
-            )
-
-            self.model.add_constraint(summation <= 1, 'lim_instalacao_%s' % i)
-
     def add_objectives(self, tolerance):
         # objective distancia
         distance_objective = self.model.sum(
@@ -103,7 +87,7 @@ class BinModel():
 
         # objective lixeiras
         bins_objective = self.model.sum(
-            self.model.installed[ (i, j) ] for j in range(len(self.bins)) for i in range(len(self.locations))
+            self.model.installed[i] for i in range(len(self.locations))
         )
 
         self.model.add_kpi(bins_objective, 'lixeiras')
@@ -117,14 +101,9 @@ class BinModel():
         installed_bins = []
 
         for i in range(len(self.locations)):
-            bins_row = []
-
-            for j in range(len(self.bins)):
-                bins_row.append(self.model.solution.get_value(
-                    'lixeiras_instaladas_%s_%s' % (i, j)
-                ))
-
-            installed_bins.append(bins_row)
+            installed_bins.append(self.model.solution.get_value(
+                'lixeiras_instaladas_%s' % i
+            ))
 
         return installed_bins
 

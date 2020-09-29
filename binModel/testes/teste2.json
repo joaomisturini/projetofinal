@@ -6,28 +6,10 @@
         { "space": 30 },
         { "space": 30 }
     ],
-    "bins": [
-        {
-            "capacity": 1000,
-            "size": 3
-        },
-        {
-            "capacity": 1000,
-            "size": 3
-        },
-        {
-            "capacity": 1000,
-            "size": 3
-        },
-        {
-            "capacity": 1000,
-            "size": 3
-        },
-        {
-            "capacity": 1000,
-            "size": 3
-        }
-    ],
+    "bins": {
+        "capacity": 1000,
+        "size": 3
+    },
     "dwellings": [
         { "volume": 108.9 },
         { "volume": 1089 },
