@@ -10,10 +10,10 @@ class BinModel():
 
         self.model = Model(name='Lixeiras')
 
-    def solve(self, tolerance = 0):
+    def solve(self, tolerance = 0, reverse = False):
         self.add_variables()
         self.add_constraints()
-        self.add_objectives(tolerance)
+        self.add_objectives(tolerance, reverse)
 
         if not self.model.solve():
             return None
@@ -77,7 +77,7 @@ class BinModel():
                     set_distance <= self.max_distance, 'lim_distancia_%s_%s' % (i, j)
                 )
 
-    def add_objectives(self, tolerance):
+    def add_objectives(self, tolerance, reverse):
         # objective distancia
         distance_objective = self.model.sum(
             self.distances[i][j] * self.model.designated[ (i, j) ] for j in range(len(self.dwellings)) for i in range(len(self.locations))
@@ -93,9 +93,13 @@ class BinModel():
         self.model.add_kpi(bins_objective, 'lixeiras')
 
         # minimize
-        self.model.minimize_static_lex([
+        objectives_list = [
+            bins_objective, distance_objective,
+        ] if reverse else [
             distance_objective, bins_objective,
-        ], abstols=tolerance)
+        ]
+
+        self.model.minimize_static_lex(objectives_list, abstols=tolerance)
 
     def generate_installed_bins(self):
         installed_bins = []
