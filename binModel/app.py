@@ -1,4 +1,4 @@
-import json, ast
+import json
 from bin_model import BinModel
 
 input_file = open('./testes/teste1.json')
