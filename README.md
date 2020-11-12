@@ -24,11 +24,9 @@ Os resultados apresentados pela solução mostram melhoras significativas em com
 
 Na avaliação de desempenho, a solução foi capaz de apresentar resultados em tempos menores do que trabalhos da literatura recente, demonstrando ganhos significativos nos cenários testados. Os gráficos abaixo exibem os resultados de tempo de execução em relação ao tamanho do cenário, onde é priorizado o resultado com menor distância total (à esquerda) e com menor quantidade de lixeiras (à direita).
 
-<p>
-    <img src="https://raw.githubusercontent.com/joaomisturini/projetofinal/master/images/posicao-distancia.png" alt="Comparação de desempenho - menor distância total" width="49%" />
-
-    <img src="https://raw.githubusercontent.com/joaomisturini/projetofinal/master/images/posicao-lixeiras.png" alt="Comparação de desempenho - menor quantidade de lixeiras" width="49.8%" />
-</p>
+Menor distância total      |  Menor quantidade de lixeiras
+:-------------------------:|:-------------------------:
+![Comparação de desempenho - menor distância total](https://raw.githubusercontent.com/joaomisturini/projetofinal/master/images/posicao-distancia.png)|![Comparação de desempenho - menor quantidade de lixeiras](https://raw.githubusercontent.com/joaomisturini/projetofinal/master/images/posicao-lixeiras.png)
 
 ## Requisitos
 
